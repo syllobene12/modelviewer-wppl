@@ -68,7 +68,7 @@ add_action('wp_enqueue_scripts', function() {
  */
 add_filter('upload_mimes', function( $mime_types ) {
     $mime_types['gltf'] = 'model/gltf+json';
-    $mime_types['glb'] = 'model/glb+json';
+    $mime_types['glb'] = 'model/gltf-binary';
     return $mime_types;
 });
 add_filter('wp_check_filetype_and_ext', function( $info, $tmpfile, $filename, $mimes ) {
@@ -77,7 +77,7 @@ add_filter('wp_check_filetype_and_ext', function( $info, $tmpfile, $filename, $m
         $info['type'] = 'model/gltf+json';
     } else if ( strpos( $filename, '.glb' ) !== false ) {
         $info['ext'] = 'glb';
-        $info['type'] = 'model/glb+json';
+        $info['type'] = 'model/gltf-binary';
     }
     return $info;
 }, 10, 4);
@@ -103,9 +103,10 @@ add_filter( 'wp_handle_upload_prefilter', function( $file ) {
  * メディアからGLTFファイル追加時にショートコードを自動入力
  */
 add_filter('media_send_to_editor', function( $html, $id, $attachment ) {
+    $defaults = 'auto-rotate camera-controls';
     $fileinfo = pathinfo($attachment['url']);
     if ($fileinfo['extension'] == 'gltf' || $fileinfo['extension'] == 'glb') {
-        $html = "[model-viewer src={$fileinfo['basename']}]";
+        $html = "[model-viewer src={$fileinfo['basename']} $defaults]";
     }
 	return $html;
 }, 10, 3);
@@ -125,15 +126,8 @@ add_shortcode('model-viewer', function( $args ) {
     // model-viewer用引数解析
     $mv_args_s = '';
     {
-        // デフォルト値のセット
-        $mv_args = array(
-            'loading' => 'auto',     // モデルのプリロードタイミング
-            'exposure' => '0.6',      // 露出レベル
-            'auto-rotate' => true,
-            'camera-controls' => true,
-        );
-
         // 引数セット
+        $mv_args = array();
         foreach ($args as $key => $value) {
             if ($key === 'src') {
                 continue;
