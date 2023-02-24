@@ -1,0 +1,31 @@
+/* model-viewerのメインビュー */
+model-viewer {
+  width: 700px;
+  height: 700px;
+  margin: auto;
+  background-color: unset;
+  border-radius: 3px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.10);
+  z-index: 10;
+}
+@media screen and (max-width: 480px) {
+  model-viewer {
+    width: 320px;
+    height: 320px;
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+}
+@media screen and (max-width: 320px) {
+  model-viewer {
+    width: 220px;
+    height: 220px;
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+}
+model-viewer#reveal {
+  --poster-color: transparent;
+}
