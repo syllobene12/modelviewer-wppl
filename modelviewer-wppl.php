@@ -38,7 +38,7 @@ require_once MVPL_PATH . 'class/shortcode.php';
 /**
  * Main class
  */
-class MODELVIEWER_WPPL {
+class ModelViewer_WPPL {
     public function __construct() {
         MVPl_Data::init();
         MVPL_MVWrap::init();
@@ -47,14 +47,9 @@ class MODELVIEWER_WPPL {
 }
 
 /**
- * Run MODELVIEWER_WPPL
+ * Run ModelViewer_WPPL
  */
 add_action( 'plugins_loaded', function() {
-    new MODELVIEWER_WPPL();
+    new ModelViewer_WPPL();
 } );
 
-function console_log($data) {
-    echo '<script>';
-    echo 'console.log('.json_encode($data).')';
-    echo '</script>';
-}
