@@ -29,3 +29,302 @@ model-viewer {
 model-viewer#reveal {
   --poster-color: transparent;
 }
+
+wp-model-viewer[class*="mv_main-"] {
+  display: flow-root;
+  position: relative;
+  max-width: 100%;
+  padding-top: 100%;
+}
+wp-model-viewer[class*="mv_sub-"] {
+  display: inline-block;
+}
+
+wp-model-viewer[class*="mv_main-"] model-viewer {
+  width: 100%;
+  height: calc(100% - 120px);
+  position: absolute;
+  top: 0;
+}
+
+/* サブビュー */
+wp-model-viewer[class*="mv_sub-"] model-viewer {
+  display: inline-flex;
+  width: 150px;
+  height: 150px;
+  margin: 10px auto;
+}
+
+/* フッター */
+wp-model-viewer .footer {
+  display: none;
+  margin: 0px;
+  padding-top: 15px;
+  height: 120px;
+}
+wp-model-viewer[class*="mv_main-"] .footer {
+  display: block;
+}
+
+/* 撮影ボタン */
+wp-model-viewer button.take_image {
+  display: block;
+  padding: 0.5em;
+  margin: 5px auto;
+  width: 150px;
+  height: 50px;
+  color: #fff !important;
+  background: #524e4d;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 3px;
+  text-align: center;
+  text-decoration: none !important;
+}
+wp-model-viewer button.take_image:before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: -3px 5px 0 0;
+  background: url("images/cammera_white.svg") no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+}
+wp-model-viewer button.take_image:hover {
+  background: #4c6cb3;
+}
+
+/* カラー変更ボタン */
+wp-model-viewer model-viewer .select_colors {
+  display: none;
+  position: absolute;
+  bottom: 10px;
+  left: 10px
+}
+wp-model-viewer[class^="mv_main-"] model-viewer .select_colors {
+  display: flex;
+}
+wp-model-viewer .select_colors div.select_button {
+  position: relative;;
+}
+wp-model-viewer .select_colors span.title {
+  display: none;
+  position: absolute;
+  top: -20px;
+  text-align: center;
+  width: 100px;
+  left: -25px;
+  font-size: 20px;
+  font-family: "Nico Moji";
+}
+wp-model-viewer .select_colors span.title.show {
+  display: block;
+}
+wp-model-viewer .select_colors button {
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  border: solid 1px rgb(100, 100, 100);
+  margin: 10px;
+  opacity: 0.5;
+}
+
+.sp-palette .sp-thumb-el {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin: 2px 2px;
+}
+.sp-palette .sp-thumb-inner {
+  border-radius: 50%;
+}
+.sp-container {
+    background-color: rgb(255, 255, 255);
+}
+.sp-container button.sp-palette-toggle {
+  color: #fff;
+  background: #f0c49b;
+  border-radius: 100vh;
+  width: 80px;
+  border: none;
+}
+.sp-container button{
+  font-family: "Nico Moji";
+  font-size: 20px;
+}
+
+/* もとに戻すボタン */
+wp-model-viewer model-viewer button.undoButton {
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  margin: 15px;
+  border: none;
+  font-size: 26px;
+  background: rgba(0,0,0,0);
+  font-family: "Nico Moji";
+}
+
+/* アニメーション操作ボタン */
+wp-model-viewer .animation_operater {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+}
+wp-model-viewer[class^="mv_main-"] .animation_operater button {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: solid 1px rgb(0,0,0);
+  background-color: rgba(0,0,0,0);
+  margin: 10px;
+  opacity: 0.3;
+}
+wp-model-viewer .animation_operater button.toggle.play:before {
+  content: "";
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 0 0 0 6px;
+  background: url("images/play.svg") no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+}
+wp-model-viewer .animation_operater button.toggle.pause:before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin: 0 0 0 0;
+  background: url("images/pause.svg") no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+}
+
+/*
+ * canvas関連
+ */
+wp-model-viewer .mv-back-canvas {
+  width: 100%;
+  height: calc(100% - 120px);
+  margin: auto;
+  position: absolute;
+  top: 0;
+  display: none;
+  overflow: hidden;
+  background-color: unset;
+}
+@media screen and (max-width: 480px) {
+  wp-model-viewer .mv-back-canvas {
+    width: 320px;
+    height: 320px;
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.10);
+    bottom: -320px;
+    margin-top: -320px;
+  }
+}
+@media screen and (max-width: 320px) {
+  wp-model-viewer .mv-back-canvas {
+    width: 220px;
+    height: 220px;
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.10);
+    bottom: -220px;
+    margin-top: -220px;
+  }
+}
+/* canvas本体 */
+wp-model-viewer canvas.mv-back {
+  background-color: unset;
+  pointer-events: none;
+  position: absolute;
+  z-index: 9;
+}
+wp-model-viewer canvas.mv-back.prev {
+  z-index: 11;
+}
+wp-model-viewer .mv-back-canvas.move {
+    z-index: 50;
+}
+wp-model-viewer canvas.mv-back.move {
+  pointer-events: auto;
+  opacity: 0.9;
+  cursor: move;
+  position: absolute;
+  z-index: 50;
+}
+.drag {
+    z-index: 51;
+}
+@media screen and (max-width: 480px) {
+  wp-model-viewer canvas.mv-back {
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+}
+@media screen and (max-width: 320px) {
+  wp-model-viewer canvas.mv-back {
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+}
+/* canvas操作ボタン */
+wp-model-viewer .canvas_operater {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+}
+wp-model-viewer .canvas_operater button {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: solid 1px rgb(0,0,0);
+  background-color: rgba(0,0,0,0);
+  margin: 10px;
+  opacity: 0.3;
+}
+wp-model-viewer .canvas_operater button.clear:before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin: 0 0 0 0;
+  background: url("images/clear.svg") no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+}
+wp-model-viewer .canvas_operater button.toggle:before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin: 0 0 0 0;
+  background: url("images/yajirushi.svg") no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+}
+wp-model-viewer .canvas_operater button.move:before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin: 0 0 0 0;
+  background: url("images/moveArrow.svg") no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+}
+
+wp-model-viewer .show {
+  display: block !important;
+}

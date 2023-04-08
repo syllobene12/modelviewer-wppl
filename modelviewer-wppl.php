@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/syllobene12/modelviewer-wppl
  * Description: &lt;model-viewer&gt;をwordpressで使用するためのプラグインです。
  * Requires at least: 6.2
- * Version: 0.1.0
+ * Version: 0.1.0.m1
  * Author: syllobene12
  * Author URI: https://twitter.com/syllobene12
  * Text Domain: modelviewer-wppl
@@ -34,6 +34,7 @@ if ( ! defined( 'MVPL_VERSION' ) ) {
 require_once MVPL_PATH . 'class/data.php';
 require_once MVPL_PATH . 'class/modelviewer-wrap.php';
 require_once MVPL_PATH . 'class/shortcode.php';
+require_once MVPL_PATH . 'class/mawasu-illust.php';
 
 /**
  * Main class
@@ -43,6 +44,7 @@ class ModelViewer_WPPL {
         MVPl_Data::init();
         MVPL_MVWrap::init();
         MVPL_Shortcode::init();
+        MVPL_Mawasu::init();
     }
 }
 

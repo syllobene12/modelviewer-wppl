@@ -34,17 +34,45 @@ class MVPL_Shortcode {
             
             // ショートコード用引数解析
             extract(shortcode_atts(array(
-                'src' => ''              // GTLFのパス
+                'group' => 1,
+                'src' => '',              // GTLFのパス
+                'material' => '',
             ), $args));
+            $sub = in_array('sub', $args, true);
 
             // model-viewer用引数解析
             $mv_args_s = '';
             {
                 // 引数セット
-                $mv_args = array();
+                $mv_args = array(
+                    'loading' => 'lazy',     // モデルのプリロードタイミング
+                    'exposure' => '0.6',      // 露出レベル
+                    'poster' => MVPL_URL . 'assets/images/cammera_white.svg',
+                    'max-field-of-view' => '160deg',    // 最大視野：小さくできるようにします
+                    //'camera-orbit' => '20deg 90deg 205%',
+                );
+
+                // デフォルト値のセット
+                if ($sub === false) {
+                    $mv_args = array_merge($mv_args, array(
+                        'auto-rotate' => false,
+                        'camera-controls' => true,
+                        'ar' => true,
+                    ));
+                } else {
+                    $mv_args = array_merge($mv_args, array(
+                        'auto-rotate' => true,
+                        'camera-controls' => false,
+                        'ar' => false,
+                    ));
+                }
+                
                 foreach ($args as $key => $value) {
-                    if ($key === 'src') {
-                        continue;
+                    if ($key === 'group' ||
+                        $key === 'src' ||
+                        $key === 'material' ||
+                        (gettype($key) === 'integer' && $value === 'sub')
+                    ) {                        continue;
                     }
                     if (gettype($key) === 'integer') {
                         // キーが数値(配列インデックス)だったらフラグONとして判定
@@ -75,6 +103,12 @@ class MVPL_Shortcode {
                 //console_log($mv_args_s);
             }
 
+            // グループクラスセット
+            $class = 'mv_main-' . $group;
+            if ($sub == true) {
+                $class = 'mv_sub-' . $group;
+            }
+
             // GLTFファイルパス取得
             $upload_dir = wp_upload_dir();
             $model_upload_dir = MVPL_Data::$model_upload_dir;
@@ -85,9 +119,25 @@ class MVPL_Shortcode {
             if ($response !== false) {
 
                 // 指定したファイルが存在すれば、表示します
-                echo "<wp-model-viewer>";
-                echo "  <model-viewer src='$src_path' $mv_args_s onload='wpModelViewer.onload(event)'>";
+                echo "<wp-model-viewer class='$class'>";
+                echo "  <div class='mv-back-canvas'>";
+                echo "    <div class='canvas_operater'>";
+                echo "      <button class='clear' onclick='wpModelViewer.canvas.clear(event)'></button>";
+                echo "      <button class='toggle' onclick='wpModelViewer.canvas.toggleIndex(event)'></button>";
+                echo "      <button class='move' onclick='wpModelViewer.canvas.switchMoveMode(event)'></button>";
+                echo "    </div>";
+                echo "  </div>";
+                echo "  <model-viewer src='$src_path' $mv_args_s data-material='$material' onclick='wpModelViewer.changeMainModelView(event)' onload='wpModelViewer.onload(event)'>";
+                echo "    <div class='select_colors'></div>";
+                echo "    <button class='undoButton'>もとに戻す</button>";
+                echo "    <div class='animation_operater'>";
+                echo "      <button class='toggle'></button>";
+                echo "    </div>";
                 echo "  </model-viewer>";
+                echo "  <div class='footer'>";
+                echo "    <button class='take_image' onclick='wpModelViewer.download3DImage(event)'>撮 影</button>";
+                echo "    <input type='file' onChange='wpModelViewer.canvas.imgPreView(event)'>";
+                echo "  </div>";
                 echo "</wp-model-viewer>";
 
             } else {
