@@ -57,13 +57,13 @@ class MVPL_MVWrap {
 
             $ext_list = array_keys(MVPL_Data::UPLOAD_MODEL_TYPES);
             foreach($ext_list as $ext) {
-                $mime_types[$ext] = MVPL_Data::UPLOAD_MODEL_TYPES[$ext][$type];
+                $mime_types[$ext] = MVPL_Data::UPLOAD_MODEL_TYPES[$ext]['type'];
             }
 
             //global $image_types;
             $ext_list = array_keys(MVPL_Data::UPLOAD_IMAGE_TYPES);
             foreach($ext_list as $ext) {
-                $mime_types[$ext] = MVPL_Data::UPLOAD_IMAGE_TYPES[$ext][$type];
+                $mime_types[$ext] = MVPL_Data::UPLOAD_IMAGE_TYPES[$ext]['type'];
             }
 
             return $mime_types;
